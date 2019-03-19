@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="lang"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="borris"><meta name="keywords" content><meta name="author" content="Borris Cho"><meta name="copyright" content="Borris Cho"><title>borris | Borris's Develope Blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="author-info"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">Borris Cho</div><div class="author-info__description text-center">borris</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="archives"><span class="pull-left">Articles</span><span class="pull-right">1</span></a><a class="author-info-articles__tags article-meta" href="tags"><span class="pull-left">Tags</span><span class="pull-right">4</span></a><a class="author-info-articles__categories article-meta" href="categories"><span class="pull-left">Categories</span><span class="pull-right">1</span></a></div></div></div><nav class="no-bg" id="nav"><div id="page-header"><span class="pull-left"> <a id="site-name" href="index.html">Borris's Develope Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span></div><div id="site-info"><div id="site-title">Borris's Develope Blog</div><div id="site-sub-title">borris</div></div></nav><div id="content-outer"><div class="layout" id="content-inner"><div class="recent-post-item article-container"><a class="article-title" href="2016/08/2016-08-09-jbpm-strategies/">jbpm 실행전략</a><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2016-08-09</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="categories/jbpm/">jbpm</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="tags/jbpm/">jbpm</a><span class="article-meta__link">-</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="tags/bpm/">bpm</a><span class="article-meta__link">-</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="tags/soa/">soa</a><span class="article-meta__link">-</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="tags/workflow/">workflow</a></span><div class="content"><h2 id="jbpm-Runtime-strategy"><a href="#jbpm-Runtime-strategy" class="headerlink" title="jbpm Runtime strategy"></a>jbpm Runtime strategy</h2><p>총 3가지가 있는데 디폴트는 Singleton이다<br>성능테스트시에 was 쪽에 병목 현상이 일어나서 확인해본결과 아래의 내용대로 실행전략을 잘짜야겠다는 생각을 했다.<br>성능테스트를 위해 Per request로 모두 수정하여 테스트를 진행하였다.</p>
+<h1 id="Singleton-stratege"><a href="#Singleton-stratege" class="headerlink" title="Singleton stratege"></a>Singleton stratege</h1><p>KieSession 및 TaskService의 단일 인스턴스를 유지 합니다. 동기화로 인해서 성능이 저하되어 있긴 하지만 Thread safe하고 엑세스를 동기화 합니다. 아래와 같은 특징을 제공합니다.</p>
+<ul>
+<li>RuntimeEngine 및 taskService의 단일 인스턴스.</li>
+<li>간단한 디자인과 컴팩트.</li>
+<li>동기화 액세스 하는 프로세스 엔진중 괜챃음</li>
+<li>하나의 KieSession instance의 모든 상태 object를 알수 있다.</li>
+<li>RuntimeManager간에 사용되는 KieSession의 ID 추적은 같은 세션을 사용합니다. 아래 설정의 임시위치에 이 ID가 저장이 됩니다.<ul>
+<li>jbpm.data.dir</li>
+<li>jboss.server.data.dir</li>
+<li>java.io.tmpdir</li>
+</ul>
+</li>
+</ul>
+<h1 id="Per-request-strategy"><a href="#Per-request-strategy" class="headerlink" title="Per request strategy"></a>Per request strategy</h1><p>모든 요청에 대해 RuntimeEngine의 새로운 객체를 제공합니다. 요청이 완료되면 RuntimeEngine이 영구적으로 제거 됩니다. </p>
+<ul>
+<li><p>KieSession 정보가 DB에서 제거됨.<br>아래와 같은 특징을 제공합니다</p>
+</li>
+<li><p>모든 요청에 대해 완전히 격리된 프로세스 엔진 및 태스트 서비스를 운영함.</p>
+</li>
+<li>높은 부하에 대한 적합</li>
+<li>KieSession 요청의 수명 시간 동안 만 사용할 수 있음.</li>
+</ul>
+<h1 id="Per-process-instance-strategy"><a href="#Per-process-instance-strategy" class="headerlink" title="Per process instance strategy"></a>Per process instance strategy</h1><p>KieSession과 ProecssInstance사이의 엄격환 관계를 유지합니다. 이 전력은 최대의 성능 및 가장 유연한 접근 방식을 제공.<br>아래와 같은 특징을 제공합니다.</p>
+<ul>
+<li>ProcessInstance에 대해 동일한 KieSession을 제공하는것을 보장한다</li>
+<li>ProcessInstance는 모든 프로세스 인스턴스 완료/중단 시 KieSession의 라이프 사이클을 병합</li>
+<li>프로세스 인스턴스는 해당 데이터에 액세스 할 수 있습니다.</li>
+<li>Context instance 허용<ul>
+<li>EmptyContext 나 null : 사용가능한 프로세스 인스턴스 ID가 없다</li>
+<li>ProcessInstanceIDContext : 프로세스 인스턴스가 생성된 후 사용</li>
+<li>CorrelationKeyContext - 프로세스 InstanceID의 키를 대신해서 사용</li>
+</ul>
+</li>
+</ul>
+</div><hr></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2019 By Borris Cho</div><div class="framework-info"><span>Driven - </span><a href="http://hexo.io" rel="external nofollow noopener noreferrer" target="_blank"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" rel="external nofollow noopener noreferrer" target="_blank"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fa fa-user"></i><span id="busuanzi_value_site_uv"></span><span></span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>
