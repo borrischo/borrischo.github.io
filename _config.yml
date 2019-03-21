@@ -94,7 +94,7 @@ feed:
   # feed path (Default: atom.xml / rss2.xml)
   path: rss2.xml
   # 최신 포스트의 갯수 설정. (0 또는 false 입력시 전체 포스트)
-  limit: 20
+  limit: 5
 
 nofollow:
   enable: true

@@ -96,31 +96,31 @@ tencent_analytics:
 # stylesheets loaded in the <head>
 # ---------------
 stylesheets:
-  - /css/index.css
-  # scripts loaded in the end of the body
-  # ---------------
+- /css/index.css
+# scripts loaded in the end of the body
+# ---------------
 scripts:
-  - /js/utils.js
-  - /js/fancybox.js
-  - /js/sidebar.js
-  - /js/copy.js
-  - /js/fireworks.js
-  - /js/transition.js
-  - /js/scroll.js
-  - /js/head.js
+- /js/utils.js
+- /js/fancybox.js
+- /js/sidebar.js
+- /js/copy.js
+- /js/fireworks.js
+- /js/transition.js
+- /js/scroll.js
+- /js/head.js
 
-  # cdn for third-party library
-  # ---------------
+# cdn for third-party library
+# ---------------
 cdn:
   css:
     fontawesome: https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css
     # fontawesomeV5: https://use.fontawesome.com/releases/v5.3.1/css/all.css
   js:
-    anime: https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js
-    jquery: https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js
-    fancybox: https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js
-    velocity: https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js
-    velocity-ui: https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js
+    anime: /js/third-party/anime.min.js
+    jquery: /js/third-party/jquery.min.js
+    fancybox: /js/third-party/jquery.fancybox.min.js
+    velocity: /js/third-party/velocity.min.js
+    velocity-ui: /js/third-party/velocity.ui.min.js
 
 # Post info settings
 # ---------------
@@ -142,14 +142,14 @@ toc:
   # number: true
 
 post_copyright:
-  enable: true
+  enable: false
   license: CC BY-NC-SA 4.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 # Please see doc for more details: https://molunerfinn.com/hexo-theme-melody-doc/#/theme-config?id=auto-excerpt
-# auto_excerpt:
-#   enable: false
-#   length: 150
+auto_excerpt:
+  enable: true
+  length: 150
 
 # slide
 # For reveal.js config, see https://github.com/hakimel/reveal.js#configuration
@@ -189,9 +189,9 @@ addThis:
 # Comments System
 # ---------------
 disqus:
-  enable: false
-  #shortname:
-  #count:
+  enable: true
+  shortname: borris
+  count: true
 
 # laibili:
 # enable: false
@@ -227,7 +227,7 @@ disqus:
 
 # Footer Settings
 # ---------------
-since: 2013
+since: 2019
 
 # footer_custom_text:
 
@@ -263,6 +263,21 @@ busuanzi:
 #   enable: true
 #   url: ''
 #   text: ''
+
+follow:
+  enable: true
+  url: 'https://github.com/borrischo'
+  text: 'Follow Me'
+
+social:
+  github fa: https://github.com/borrischo
+  rss fa: https://borrischo.github.io/rss2.xml
+
+links_title: Links   # Set the links title
+links:
+  naverblog: https://blog.naver.com/borrischo
+  linkedin: https://www.linkedin.com/in/borrischo/
+  slideshare: https://www.slideshare.net/borrischo
 
 # Ads
 # ---------------
