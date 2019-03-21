@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "jbpm 실행전략"
-date: 2016-08-09 16:41:00 +0900
+title: "Borris Web Develop Style"
+date: 2019-03-21 116:41:00 +0900
 comments: true
-tags : ["jbpm","bpm","soa","workflow"]
+tags : ["java","bpm","soa","workflow"]
 categories : ["jbpm"]
 sitemap :
   changefreq : daily
