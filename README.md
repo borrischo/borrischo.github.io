@@ -9,7 +9,9 @@ npm install hexo-renderer-jade hexo-renderer-stylus hexo-autonofollow hexo-auto-
 
 ## 반영 방법
 
+### push
 
+git push origin src
 
 ## 옵션 참고
 
