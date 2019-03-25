@@ -156,4 +156,42 @@ public class ExceptionControllerAdvice {
 
 #### 공백(Space)을 주는 항목
 
+다음과 같은 경우엔 공백을 주어야 합니다.
+
+- Operators(+, -, /, * 등등) 사이에 공백을 주어야 합니다.
+- Method, Class 헤더, Loop, if과 같이 중괄호({)가 사용되는 곳에 공백을 주어야 합니다.
+- 콤마(",")와 다음 문자열에 공백을 주어야 합니다.
+- for안에 세미콜론(";")에 공백을 주어야 합니다.
+
 #### 공백(Space)을 주면 안되는 항목
+
+다음과 같은 경우엔 공백을 주면 안됩니다.
+
+- Method의 시작괄호("(",)부분엔 공백을 주면 안됩니다.
+- 함수나, 객체 선언, 생성시 시작괄호("(")부분엔 공백을 주면 안됩니다.
+- 배열(Array)나 제네릭의 시작꺽쇠("<")와 시작괄호("(")에는 공백을 주면 안됩니다.
+
+#### 예제
+
+```java
+public static void main(String[] args) {
+    String randomStr = "";
+    List<String> strList = new ArrayList<String>();
+
+    try {
+        for(int i = 0; i <= strList.size(); i++) {
+            if(strList.get(i).indexOf('-', 1) > -1) {
+                log.info("MINUS");
+            }
+
+            if(strList.get(i).equals(randomStr)) {
+                log.info("WOW");
+            } else {
+                log.info("OH");
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+```
